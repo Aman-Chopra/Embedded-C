@@ -1,0 +1,30 @@
+Algorithm
+
+->Initialize the LCD
+
+     P0.23-PO.28 -->    LCD at CND
+     P0.27 -->          RESET  (output)
+     P0.28 -->          ENABLE  (output)
+     P0.23 TO P0.26 --> DATA LINES (input).
+
+->Configure ports for Keyboard interface
+
+     P0.4-P0.11 for Keypad at CNA
+     P0.8 TO P0.11 --> ROWS  (output)
+     P0.4 TO P0.7 --> COLS  (input).
+
+->Enable GPIO Interrupt(EINT3) oh rising for keyboard columns(P0.4 TO P0.7) and External hardware interrupt (EINT2 edge triggered, rising edge)for mode bit(P2.12,       CNB).
+
+->Initially all rows are high, in the interrupt handler. all rows are cleared and made   set one by one and respective column which is set is checked (through scan()   function).
+
+->If any column is set, the mode variable is checked.
+  Mode key is set to 1 if it's 0 and reset to 0 if it was 1 in the EINT2 Interrrupt handler
+
+->Respective keycode array is used according to mode to get the keycode of key pressed and stored in a variable(check)
+
+->The keycode characters are pushed into stack, when '=' key is pressed, the infix expression is converted to postfix and evaluated and finally the result is displayed   on LCD.
+
+->If clear key is pressed('C'), the display is cleared, and expression stack is cleared.
+
+->If backspace key is pressed('b'), the most recent character input is removed from display and stack.
+
